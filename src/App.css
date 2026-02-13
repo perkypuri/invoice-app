@@ -1,38 +1,174 @@
-.App {
+/* Import a clean font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+
+/* Page container */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Title */
+h1 {
   text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #1f2937;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Invoice card */
+.invoice {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.invoice:hover {
+  transform: translateY(-2px);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+/* Section headings */
+.invoice h2 {
+  margin-top: 0;
+  color: #111827;
+}
+
+.invoice h3 {
+  margin-top: 20px;
+  color: #374151;
+}
+
+/* Inputs */
+input {
+  padding: 10px;
+  margin: 6px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #fafafa;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  background: #fff;
+}
+
+/* Item row */
+.itemRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+button {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Add invoice */
+.add {
+  background: #2563eb;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.add:hover {
+  background: #1e40af;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Print button */
+.print {
+  background: #16a34a;
+  color: white;
+  margin-left: 10px;
+}
+
+.print:hover {
+  background: #166534;
+}
+
+/* Remove invoice */
+.remove {
+  background: #dc2626;
+  color: white;
+  margin-top: 10px;
+}
+
+.remove:hover {
+  background: #991b1b;
+}
+
+/* Small delete button */
+.itemRow button {
+  background: #ef4444;
+  color: white;
+  padding: 6px 10px;
+}
+
+.itemRow button:hover {
+  background: #b91c1c;
+}
+
+/* Divider */
+hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 20px 0;
+}
+
+/* Total highlight */
+.invoice h3:last-of-type {
+  background: #f9fafb;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+  .itemRow {
+    grid-template-columns: 1fr;
   }
-  to {
-    transform: rotate(360deg);
+
+  input {
+    width: 100%;
+  }
+}
+
+/* Print styling */
+@media print {
+  body {
+    background: white;
+  }
+
+  button {
+    display: none;
+  }
+
+  .invoice {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    page-break-after: always;
   }
 }
