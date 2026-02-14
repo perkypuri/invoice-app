@@ -1,174 +1,158 @@
-/* Import a clean font */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
-
+/* Reset */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Page Background */
 body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
   background: #f4f6f8;
   color: #333;
 }
 
-/* Page container */
+/* Main Container */
 .container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 20px;
+  width: 95%;
+  max-width: 1100px;
+  margin: 30px auto;
 }
 
-/* Title */
+/* Heading */
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  font-weight: 600;
-  color: #1f2937;
+  margin-bottom: 25px;
+  color: #2c3e50;
 }
 
-/* Invoice card */
+/* Upload Section */
+input[type="file"] {
+  margin-bottom: 25px;
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Invoice Card */
 .invoice {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 25px;
+  padding: 20px;
   margin-bottom: 25px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s ease;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: 0.2s;
 }
 
 .invoice:hover {
-  transform: translateY(-2px);
+  transform: scale(1.003);
 }
 
-/* Section headings */
+/* Invoice Title */
 .invoice h2 {
-  margin-top: 0;
-  color: #111827;
-}
-
-.invoice h3 {
-  margin-top: 20px;
-  color: #374151;
+  margin-bottom: 15px;
+  color: #34495e;
 }
 
 /* Inputs */
-input {
+.invoice input {
+  width: 100%;
   padding: 10px;
-  margin: 6px;
+  margin: 6px 0;
+  border: 1px solid #dcdcdc;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
-  background: #fafafa;
-  transition: border 0.2s ease, box-shadow 0.2s ease;
+  transition: 0.2s;
 }
 
-input:focus {
+.invoice input:focus {
   outline: none;
-  border: 1px solid #2563eb;
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
-  background: #fff;
+  border-color: #3498db;
 }
 
-/* Item row */
+/* Items Row */
 .itemRow {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
   gap: 10px;
-  margin-bottom: 10px;
+  margin: 8px 0;
 }
 
-/* Buttons */
+/* Buttons General */
 button {
+  padding: 8px 14px;
   border: none;
   border-radius: 6px;
-  padding: 8px 14px;
-  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
-/* Add invoice */
+/* Add Item Button */
+button:hover {
+  opacity: 0.9;
+}
+
+/* Add Invoice */
 .add {
-  background: #2563eb;
+  background: #2ecc71;
   color: white;
+  margin-right: 10px;
 }
 
-.add:hover {
-  background: #1e40af;
-}
-
-/* Print button */
-.print {
-  background: #16a34a;
-  color: white;
-  margin-left: 10px;
-}
-
-.print:hover {
-  background: #166534;
-}
-
-/* Remove invoice */
+/* Remove Invoice */
 .remove {
-  background: #dc2626;
+  background: #e74c3c;
   color: white;
+}
+
+/* Print Button */
+.print {
+  background: #3498db;
+  color: white;
+}
+
+/* Add Item Button inside invoice */
+.invoice > button {
   margin-top: 10px;
-}
-
-.remove:hover {
-  background: #991b1b;
-}
-
-/* Small delete button */
-.itemRow button {
-  background: #ef4444;
+  background: #9b59b6;
   color: white;
-  padding: 6px 10px;
 }
 
-.itemRow button:hover {
-  background: #b91c1c;
+/* Total Text */
+.invoice h3 {
+  margin-top: 15px;
+  color: #2c3e50;
 }
 
 /* Divider */
 hr {
+  margin-top: 20px;
   border: none;
-  border-top: 1px solid #e5e7eb;
-  margin: 20px 0;
+  border-top: 1px solid #eee;
 }
 
-/* Total highlight */
-.invoice h3:last-of-type {
-  background: #f9fafb;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: 600;
-}
+/* ---------------- PRINT STYLING ---------------- */
+/* This makes Print/Download look like real invoice */
 
-/* Responsive */
-@media (max-width: 700px) {
-  .itemRow {
-    grid-template-columns: 1fr;
-  }
-
-  input {
-    width: 100%;
-  }
-}
-
-/* Print styling */
 @media print {
   body {
     background: white;
   }
 
-  button {
+  button,
+  input[type="file"] {
     display: none;
   }
 
   .invoice {
     box-shadow: none;
     border: 1px solid #ccc;
-    page-break-after: always;
+    page-break-inside: avoid;
+  }
+
+  input {
+    border: none;
+    padding: 4px;
   }
 }
+
