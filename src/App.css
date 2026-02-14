@@ -156,3 +156,18 @@ hr {
   }
 }
 
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  background: #2c3e50;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+select {
+  padding: 8px;
+  margin: 10px 0;
+}
