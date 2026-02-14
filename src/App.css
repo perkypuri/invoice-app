@@ -1,173 +1,196 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Page Background */
+/* ---------- GLOBAL ---------- */
 body {
-  background: #f4f6f8;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fb;
   color: #333;
 }
 
-/* Main Container */
 .container {
-  width: 95%;
-  max-width: 1100px;
-  margin: 30px auto;
+  max-width: 1000px;
+  margin: auto;
+  padding: 25px 20px 40px;
 }
 
-/* Heading */
+/* ---------- TITLE ---------- */
 h1 {
   text-align: center;
   margin-bottom: 25px;
-  color: #2c3e50;
+  color: #1f2937;
+  font-weight: 600;
 }
 
-/* Upload Section */
-input[type="file"] {
-  margin-bottom: 25px;
-  padding: 10px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-/* Invoice Card */
-.invoice {
+/* ---------- DASHBOARD ---------- */
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
   background: #ffffff;
-  padding: 20px;
+  padding: 18px 24px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  font-weight: 600;
+}
+
+/* ---------- UPLOAD BOX ---------- */
+.uploadBox {
+  background: #ffffff;
+  padding: 16px 20px;
   margin-bottom: 25px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: 0.2s;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.invoice:hover {
-  transform: scale(1.003);
+.uploadBox label {
+  font-weight: 600;
 }
 
-/* Invoice Title */
-.invoice h2 {
-  margin-bottom: 15px;
-  color: #34495e;
-}
-
-/* Inputs */
-.invoice input {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-  border: 1px solid #dcdcdc;
+.uploadBox input {
+  border: 1px solid #d1d5db;
+  padding: 6px;
   border-radius: 6px;
-  transition: 0.2s;
 }
 
-.invoice input:focus {
+/* ---------- INVOICE CARD ---------- */
+.invoice {
+  background: #ffffff;
+  padding: 22px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  border-left: 4px solid #2563eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* ---------- INPUTS ---------- */
+.invoice input,
+.invoice select {
+  width: 100%;
+  padding: 9px 10px;
+  margin: 8px 0 14px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.invoice input:focus,
+.invoice select:focus {
+  border-color: #2563eb;
   outline: none;
-  border-color: #3498db;
 }
 
-/* Items Row */
+/* ---------- ITEM ROW ---------- */
 .itemRow {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
   gap: 10px;
-  margin: 8px 0;
+  margin-bottom: 10px;
 }
 
-/* Buttons General */
+.itemRow input {
+  margin: 0;
+}
+
+/* ---------- TOTAL TEXT ---------- */
+.invoice h3 {
+  margin: 6px 0;
+  font-weight: 500;
+  color: #374151;
+}
+
+.invoice h2 {
+  margin-top: 8px;
+  color: #111827;
+}
+
+/* ---------- BUTTON BASE ---------- */
 button {
-  padding: 8px 14px;
   border: none;
   border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
-/* Add Item Button */
 button:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
-/* Add Invoice */
-.add {
-  background: #2ecc71;
-  color: white;
+/* ---------- ADD ITEM ---------- */
+.invoice > button {
+  background-color: #f3f4f6;
+  color: #111827;
+  margin-top: 8px;
+}
+
+.invoice > button:hover {
+  background-color: #e5e7eb;
+}
+
+/* ---------- DELETE ITEM ---------- */
+.itemRow button {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  padding: 6px 10px;
+}
+
+.itemRow button:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ---------- BOTTOM BUTTONS (AUTO-ALIGNED) ---------- */
+.container > .downloadAll,
+.container > .add {
+  display: inline-block;
+  margin-top: 10px;
   margin-right: 10px;
 }
 
-/* Remove Invoice */
-.remove {
-  background: #e74c3c;
+/* Wrap bottom buttons visually */
+.container {
+  text-align: left;
+}
+
+/* ---------- DOWNLOAD ALL ---------- */
+.downloadAll {
+  background-color: #2563eb;
   color: white;
 }
 
-/* Print Button */
-.print {
-  background: #3498db;
+.downloadAll:hover {
+  background-color: #1d4ed8;
+}
+
+/* ---------- ADD INVOICE ---------- */
+.add {
+  background-color: #16a34a;
   color: white;
 }
 
-/* Add Item Button inside invoice */
-.invoice > button {
-  margin-top: 10px;
-  background: #9b59b6;
-  color: white;
+.add:hover {
+  background-color: #15803d;
 }
 
-/* Total Text */
-.invoice h3 {
-  margin-top: 15px;
-  color: #2c3e50;
-}
-
-/* Divider */
-hr {
-  margin-top: 20px;
-  border: none;
-  border-top: 1px solid #eee;
-}
-
-/* ---------------- PRINT STYLING ---------------- */
-/* This makes Print/Download look like real invoice */
-
-@media print {
-  body {
-    background: white;
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  button,
-  input[type="file"] {
-    display: none;
+  .itemRow {
+    grid-template-columns: 1fr;
   }
 
-  .invoice {
-    box-shadow: none;
-    border: 1px solid #ccc;
-    page-break-inside: avoid;
+  .uploadBox {
+    flex-direction: column;
+    align-items: flex-start;
   }
-
-  input {
-    border: none;
-    padding: 4px;
-  }
-}
-
-.dashboard {
-  display: flex;
-  justify-content: space-between;
-  background: #2c3e50;
-  color: white;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-select {
-  padding: 8px;
-  margin: 10px 0;
 }

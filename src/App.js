@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import autoTable from "jspdf-autotable";
 import "./App.css";
 
 const emptyInvoice = () => ({
@@ -19,7 +19,6 @@ export default function App() {
     return saved ? JSON.parse(saved) : [emptyInvoice()];
   });
 
-  // ---------------- SAVE AUTOMATICALLY ----------------
   useEffect(() => {
     localStorage.setItem("invoices", JSON.stringify(invoices));
   }, [invoices]);
@@ -60,7 +59,6 @@ export default function App() {
   const gstAmount = (inv) => subtotal(inv.items) * (inv.gst / 100);
   const grandTotal = (inv) => subtotal(inv.items) + gstAmount(inv);
 
-  // ---------------- DASHBOARD DATA ----------------
   const totalRevenue = invoices.reduce(
     (sum, inv) => sum + grandTotal(inv),
     0
@@ -69,6 +67,8 @@ export default function App() {
   // ---------------- EXCEL UPLOAD ----------------
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
 
     reader.onload = (evt) => {
@@ -108,18 +108,51 @@ export default function App() {
     setInvoices(Object.values(grouped));
   };
 
-  // ---------------- PDF EXPORT ----------------
-  const downloadPDF = async (index) => {
-    const element = document.getElementById(`invoice-${index}`);
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
+  // ---------------- PROFESSIONAL PDF EXPORT ----------------
+  const downloadAllPDF = () => {
+    const pdf = new jsPDF();
 
-    const pdf = new jsPDF("p", "mm", "a4");
-    const width = pdf.internal.pageSize.getWidth();
-    const height = (canvas.height * width) / canvas.width;
+    invoices.forEach((inv, index) => {
+      if (index !== 0) pdf.addPage();
 
-    pdf.addImage(imgData, "PNG", 0, 0, width, height);
-    pdf.save(`invoice-${index + 1}.pdf`);
+      pdf.setFontSize(16);
+      pdf.text("INVOICE", 14, 15);
+
+      pdf.setFontSize(11);
+      pdf.text(`Client: ${inv.client}`, 14, 25);
+      pdf.text(`Invoice No: ${inv.invoiceNo}`, 14, 32);
+      pdf.text(`Date: ${inv.date}`, 14, 39);
+      pdf.text(`GST: ${inv.gst}%`, 14, 46);
+
+      const tableData = inv.items.map((item) => [
+        item.desc,
+        item.qty,
+        item.price.toFixed(2),
+        (item.qty * item.price).toFixed(2)
+      ]);
+
+      autoTable(pdf, {
+        startY: 55,
+        head: [["Description", "Qty", "Price", "Total"]],
+        body: tableData,
+        theme: "grid",
+        styles: { fontSize: 10 }
+      });
+
+      const finalY = pdf.lastAutoTable.finalY + 10;
+
+      pdf.text(`Subtotal: ₹ ${subtotal(inv.items).toFixed(2)}`, 140, finalY);
+      pdf.text(`GST: ₹ ${gstAmount(inv).toFixed(2)}`, 140, finalY + 7);
+
+      pdf.setFontSize(13);
+      pdf.text(
+        `Grand Total: ₹ ${grandTotal(inv).toFixed(2)}`,
+        140,
+        finalY + 16
+      );
+    });
+
+    pdf.save("All_Invoices.pdf");
   };
 
   // ---------------- UI ----------------
@@ -127,18 +160,18 @@ export default function App() {
     <div className="container">
       <h1>Bulk Invoice Handling System</h1>
 
-      {/* DASHBOARD */}
       <div className="dashboard">
         <div>Total Invoices: {invoices.length}</div>
         <div>Total Revenue: ₹ {totalRevenue.toFixed(2)}</div>
       </div>
 
-      <input type="file" accept=".xlsx, .csv" onChange={handleFileUpload} />
+      <div className="uploadBox">
+        <label>Upload Excel:</label>
+        <input type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
+      </div>
 
       {invoices.map((inv, i) => (
-        <div key={i} className="invoice" id={`invoice-${i}`}>
-          <h2>Invoice</h2>
-
+        <div key={i} className="invoice">
           <input
             placeholder="Client"
             value={inv.client}
@@ -173,23 +206,17 @@ export default function App() {
               <input
                 placeholder="Description"
                 value={item.desc}
-                onChange={(e) =>
-                  updateItem(i, j, "desc", e.target.value)
-                }
+                onChange={(e) => updateItem(i, j, "desc", e.target.value)}
               />
               <input
                 type="number"
                 value={item.qty}
-                onChange={(e) =>
-                  updateItem(i, j, "qty", +e.target.value)
-                }
+                onChange={(e) => updateItem(i, j, "qty", +e.target.value)}
               />
               <input
                 type="number"
                 value={item.price}
-                onChange={(e) =>
-                  updateItem(i, j, "price", +e.target.value)
-                }
+                onChange={(e) => updateItem(i, j, "price", +e.target.value)}
               />
               <button onClick={() => removeItem(i, j)}>❌</button>
             </div>
@@ -200,14 +227,12 @@ export default function App() {
           <h3>Subtotal: ₹ {subtotal(inv.items).toFixed(2)}</h3>
           <h3>GST: ₹ {gstAmount(inv).toFixed(2)}</h3>
           <h2>Grand Total: ₹ {grandTotal(inv).toFixed(2)}</h2>
-
-          <button onClick={() => downloadPDF(i)}>Download PDF</button>
-          <button className="remove" onClick={() => removeInvoice(i)}>
-            Remove
-          </button>
-          <hr />
         </div>
       ))}
+
+      <button className="downloadAll" onClick={downloadAllPDF}>
+        Download All Invoices
+      </button>
 
       <button className="add" onClick={addInvoice}>
         + Add Invoice
